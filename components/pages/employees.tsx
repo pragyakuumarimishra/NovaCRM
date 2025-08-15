@@ -6,63 +6,13 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Eye, MoreVertical, Phone } from "lucide-react";
+import { useEmployees } from "@/hooks/use-employees";
 
 const stats = [
   { label: "Total Employees", value: 132 },
   { label: "Active", value: 118 },
   { label: "New This Month", value: 6 },
   { label: "On Leave", value: 8 },
-];
-
-const employees = [
-  {
-    id: "EMP-001",
-    name: "Alice Johnson",
-    avatar: "A",
-    email: "alice@novacrm.com",
-    phone: "+1 555 300 0101",
-    role: "Project Manager",
-    dept: "Projects",
-    status: "Active",
-    joined: "2023-05-14",
-    salary: 92000,
-  },
-  {
-    id: "EMP-002",
-    name: "Bob Lee",
-    avatar: "B",
-    email: "bob@novacrm.com",
-    phone: "+1 555 300 0102",
-    role: "Developer",
-    dept: "Engineering",
-    status: "Active",
-    joined: "2022-11-10",
-    salary: 105000,
-  },
-  {
-    id: "EMP-003",
-    name: "Carla Diaz",
-    avatar: "C",
-    email: "carla@novacrm.com",
-    phone: "+1 555 300 0103",
-    role: "Designer",
-    dept: "Product",
-    status: "On Leave",
-    joined: "2024-02-22",
-    salary: 78000,
-  },
-  {
-    id: "EMP-004",
-    name: "David Kim",
-    avatar: "D",
-    email: "david@novacrm.com",
-    phone: "+1 555 300 0104",
-    role: "HR Lead",
-    dept: "People",
-    status: "Inactive",
-    joined: "2021-07-01",
-    salary: 88000,
-  },
 ];
 
 const statusStyles: Record<string, string> = {
@@ -76,6 +26,24 @@ function formatMoney(n: number) {
 }
 
 export default function EmployeesPage() {
+  const { employees, loading, error } = useEmployees();
+
+  if (loading) {
+    return (
+      <div className="flex flex-col gap-8">
+        <div className="text-center py-8">Loading employees...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col gap-8">
+        <div className="text-center py-8 text-red-500">Error: {error}</div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-8">
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">

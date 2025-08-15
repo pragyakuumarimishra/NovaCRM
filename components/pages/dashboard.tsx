@@ -19,28 +19,7 @@ import {
   Legend,
 } from "recharts";
 import { cn } from "@/lib/utils";
-
-const kpis = [
-  { title: "Payrolls Cost", value: "$120,400", delta: "+4.2%", type: "positive", subtitle: "This month" },
-  { title: "Total Expense", value: "$550,800", delta: "-1.8%", type: "negative", subtitle: "All departments" },
-  { title: "Pending Payments", value: "$37,200", delta: "+1.1%", type: "neutral", subtitle: "Across teams" },
-  { title: "Total Payrolls", value: "728", delta: "+0.6%", type: "positive", subtitle: "This year" },
-];
-
-const salesData = [
-  { month: "Jan", sales: 23000 },
-  { month: "Feb", sales: 27500 },
-  { month: "Mar", sales: 22000 },
-  { month: "Apr", sales: 34000 },
-  { month: "May", sales: 42000 },
-  { month: "Jun", sales: 38000 },
-  { month: "Jul", sales: 47000 },
-  { month: "Aug", sales: 45000 },
-  { month: "Sep", sales: 50000 },
-  { month: "Oct", sales: 52000 },
-  { month: "Nov", sales: 48000 },
-  { month: "Dec", sales: 57000 },
-];
+import { useDashboard } from "@/hooks/use-dashboard";
 
 const emailMetrics = [
   { month: "Jan", ctr: 11, open: 25 },
@@ -57,20 +36,13 @@ const emailMetrics = [
   { month: "Dec", ctr: 15, open: 38 },
 ];
 
-const teamDirectory = [
-  { avatar: "A", name: "Alice Johnson", email: "alice@novacrm.com", role: "Project Manager", dept: "Projects", status: "Active" },
-  { avatar: "B", name: "Bob Lee", email: "bob@novacrm.com", role: "Developer", dept: "Engineering", status: "Active" },
-  { avatar: "C", name: "Carla Diaz", email: "carla@novacrm.com", role: "Designer", dept: "Product", status: "On Leave" },
-  { avatar: "D", name: "David Kim", email: "david@novacrm.com", role: "HR Lead", dept: "People", status: "Inactive" },
-];
-
 const statusStyles: Record<string, string> = {
   Active: "bg-green-600 text-white",
   "On Leave": "bg-amber-500 text-black",
   Inactive: "bg-neutral-700 text-white",
 };
 
-function KPI({ kpi }: { kpi: typeof kpis[number] }) {
+function KPI({ kpi }: { kpi: any }) {
   let color = "text-green-400";
   if (kpi.type === "negative") color = "text-red-400";
   if (kpi.type === "neutral") color = "text-amber-400";
@@ -105,6 +77,26 @@ function ThemedTooltip({ active, payload, label }: any) {
 }
 
 export default function DashboardPage() {
+  const { data, loading, error } = useDashboard();
+
+  if (loading) {
+    return (
+      <div className="flex flex-col gap-8">
+        <div className="text-center py-8">Loading dashboard...</div>
+      </div>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <div className="flex flex-col gap-8">
+        <div className="text-center py-8 text-red-500">Error: {error || 'Failed to load dashboard'}</div>
+      </div>
+    );
+  }
+
+  const { kpis, salesData, teamDirectory } = data;
+
   return (
     <div className="flex flex-col gap-8">
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
