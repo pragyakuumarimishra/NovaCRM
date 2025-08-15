@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root,
+html.dark {
+  color-scheme: dark;
+
+  --background: #0b0b0e;
+  --foreground: #f4f4f5;
+
+  --muted: #18181b;
+  --muted-foreground: #a1a1aa;
+
+  --card: #18181b;
+  --card-foreground: #f4f4f5;
+
+  --popover: #23232a;
+  --popover-foreground: #f4f4f5;
+
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+
+  --destructive: #ef4444;
+
+  --border: #27272a;
+  --ring: #6366f1;
+  --input: #23232a;
+
+  --chart-bar: #6366f1;
+  --chart-bar-accent: #818cf8;
+  --chart-line: #f472b6;
+  --chart-line-2: #22d3ee;
+  --chart-line-3: #a3e635;
+  --chart-area: #6366f1;
+  --chart-area-2: #22d3ee;
+  --chart-grid: var(--border);
+  --chart-tooltip-bg: var(--popover);
+  --chart-tooltip-fg: var(--popover-foreground);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Geist", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/GeistVariable.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/fonts/GeistMonoVariable.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+.font-sans { font-family: "Geist", system-ui, sans-serif; }
+.font-mono { font-family: "Geist Mono", ui-monospace, monospace; }
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+button,a,input,[role="button"] {
+  transition: background-color .15s, color .15s, border-color .15s, box-shadow .15s;
+}
+
+.scroll-thin::-webkit-scrollbar { width: 8px; height:8px; }
+.scroll-thin::-webkit-scrollbar-track { background: transparent; }
+.scroll-thin::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 999px; }
